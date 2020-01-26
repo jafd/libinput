@@ -5175,6 +5175,75 @@ libinput_device_config_scroll_get_default_natural_scroll_enabled(struct libinput
 /**
  * @ingroup config
  *
+ * Return non-zero if the device supports three-finger dragging.
+ *
+ * In three-finger drag mode, three-finger swipe gesture is inaccessible; instead,
+ * it emits events equivalent to click-dragging.
+ *
+ * @param device The device to configure
+ *
+ * @return Zero if three-finger dragging is not supported, non-zero if three-finger
+ * dragging is supported by this device
+ *
+ * @see libinput_device_config_set_three_finger_drag_enabled
+ * @see libinput_device_config_get_three_finger_drag_enabled
+ * @see libinput_device_config_get_default_three_finger_drag_enabled
+ */
+int
+libinput_device_config_has_three_finger_drag(struct libinput_device *device);
+
+/**
+ * @ingroup config
+ *
+ * Enable or disable three-finger dragging on the device.
+ *
+ * @param device The device to configure
+ * @param enable non-zero to enable, zero to disable three-finger dragging
+ *
+ * @return A config status code
+ *
+ * @see libinput_device_config_has_three_finger_drag
+ * @see libinput_device_config_get_three_finger_drag_enabled
+ * @see libinput_device_config_get_default_three_finger_drag_enabled
+ */
+enum libinput_config_status
+libinput_device_config_set_three_finger_drag_enabled(struct libinput_device *device,
+							 int enable);
+/**
+ * @ingroup config
+ *
+ * Get the current mode for three-finger dragging on this device
+ *
+ * @param device The device to configure
+ *
+ * @return Zero if three-finger dragging is disabled, non-zero if enabled
+ *
+ * @see libinput_device_config_has_three_finger_drag
+ * @see libinput_device_config_set_three_finger_drag_enabled
+ * @see libinput_device_config_get_default_three_finger_drag_enabled
+ */
+int
+libinput_device_config_get_three_finger_drag_enabled(struct libinput_device *device);
+
+/**
+ * @ingroup config
+ *
+ * Get the default mode for three-finger dragging on this device
+ *
+ * @param device The device to configure
+ *
+ * @return Zero if three-finger dragging is disabled by default, non-zero if enabled
+ *
+ * @see libinput_device_config_scroll_has_natural_scroll
+ * @see libinput_device_config_scroll_set_natural_scroll_enabled
+ * @see libinput_device_config_scroll_get_natural_scroll_enabled
+ */
+int
+libinput_device_config_get_default_three_finger_drag_enabled(struct libinput_device *device);
+
+/**
+ * @ingroup config
+ *
  * Check if a device has a configuration that supports left-handed usage.
  *
  * @param device The device to configure

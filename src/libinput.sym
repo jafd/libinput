@@ -314,3 +314,10 @@ LIBINPUT_1.15 {
 	libinput_event_tablet_pad_get_key;
 	libinput_event_tablet_pad_get_key_state;
 } LIBINPUT_1.14;
+
+LIBINPUT_1.16 {
+	libinput_device_config_has_three_finger_drag;
+	libinput_device_config_get_three_finger_drag_enabled;
+	libinput_device_config_set_three_finger_drag_enabled;
+	libinput_device_config_get_default_three_finger_drag_enabled;
+} LIBINPUT_1.15;

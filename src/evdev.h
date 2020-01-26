@@ -226,6 +226,7 @@ struct evdev_device {
 		 * used at runtime to enable/disable the feature */
 		bool natural_scrolling_enabled;
 
+
 		/* set during device init to invert direction of
 		 * horizontal scrolling */
 		bool invert_horizontal_scrolling;
@@ -269,6 +270,14 @@ struct evdev_device {
 		uint32_t button_mask;
 		uint64_t first_event_time;
 	} middlebutton;
+
+	struct {
+		struct libinput_device_config_three_finger_drag config;
+		/* set during device init if we want three finger dragging,
+		 * used at runtime to enable/disable the feature */
+		bool enabled;
+	} three_finger_drag;
+
 };
 
 static inline struct evdev_device *
@@ -568,6 +577,9 @@ evdev_pointer_notify_physical_button(struct evdev_device *device,
 
 void
 evdev_init_natural_scroll(struct evdev_device *device);
+
+void
+evdev_init_three_finger_drag(struct evdev_device *device);
 
 void
 evdev_init_button_scroll(struct evdev_device *device,

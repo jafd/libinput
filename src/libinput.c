@@ -3967,6 +3967,15 @@ libinput_device_config_scroll_has_natural_scroll(struct libinput_device *device)
 	return device->config.natural_scroll->has(device);
 }
 
+LIBINPUT_EXPORT int
+libinput_device_config_has_three_finger_drag(struct libinput_device *device)
+{
+	if (!device->config.three_finger_drag)
+		return 0;
+
+	return device->config.three_finger_drag->has(device);
+}
+
 LIBINPUT_EXPORT enum libinput_config_status
 libinput_device_config_scroll_set_natural_scroll_enabled(struct libinput_device *device,
 							 int enabled)
@@ -3975,6 +3984,16 @@ libinput_device_config_scroll_set_natural_scroll_enabled(struct libinput_device 
 		return LIBINPUT_CONFIG_STATUS_UNSUPPORTED;
 
 	return device->config.natural_scroll->set_enabled(device, enabled);
+}
+
+LIBINPUT_EXPORT enum libinput_config_status
+libinput_device_config_set_three_finger_drag_enabled(struct libinput_device *device,
+							 int enabled)
+{
+	if (!libinput_device_config_has_three_finger_drag(device))
+		return LIBINPUT_CONFIG_STATUS_UNSUPPORTED;
+
+	return device->config.three_finger_drag->set_enabled(device, enabled);
 }
 
 LIBINPUT_EXPORT int
@@ -3987,12 +4006,30 @@ libinput_device_config_scroll_get_natural_scroll_enabled(struct libinput_device 
 }
 
 LIBINPUT_EXPORT int
+libinput_device_config_get_three_finger_drag_enabled(struct libinput_device *device)
+{
+	if (!device->config.three_finger_drag)
+		return 0;
+
+	return device->config.three_finger_drag->get_enabled(device);
+}
+
+LIBINPUT_EXPORT int
 libinput_device_config_scroll_get_default_natural_scroll_enabled(struct libinput_device *device)
 {
 	if (!device->config.natural_scroll)
 		return 0;
 
 	return device->config.natural_scroll->get_default_enabled(device);
+}
+
+LIBINPUT_EXPORT int
+libinput_device_config_get_default_three_finger_drag_enabled(struct libinput_device *device)
+{
+	if (!device->config.three_finger_drag)
+		return 0;
+
+	return device->config.three_finger_drag->get_default_enabled(device);
 }
 
 LIBINPUT_EXPORT int

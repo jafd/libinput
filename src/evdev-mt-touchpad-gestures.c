@@ -128,10 +128,22 @@ tp_gesture_start(struct tp_dispatch *tp, uint64_t time)
 				    &zero, &zero, 1.0, 0.0);
 		break;
 	case GESTURE_STATE_SWIPE:
-		gesture_notify_swipe(&tp->device->base, time,
-				     LIBINPUT_EVENT_GESTURE_SWIPE_BEGIN,
-				     tp->gesture.finger_count,
-				     &zero, &zero);
+		if (
+			tp->gesture.finger_count == 3 &&
+			libinput_device_config_get_three_finger_drag_enabled(&tp->device->base)
+		) {
+			pointer_notify_button(
+				&tp->device->base,
+				time,
+				BTN_LEFT,
+				LIBINPUT_BUTTON_STATE_PRESSED
+			);
+		} else {
+			gesture_notify_swipe(&tp->device->base, time,
+						LIBINPUT_EVENT_GESTURE_SWIPE_BEGIN,
+						tp->gesture.finger_count,
+						&zero, &zero);
+		}
 		break;
 	}
 
@@ -638,10 +650,17 @@ tp_gesture_handle_state_swipe(struct tp_dispatch *tp, uint64_t time)
 	if (!normalized_is_zero(delta) || !device_float_is_zero(raw)) {
 		unaccel = tp_normalize_delta(tp, raw);
 		tp_gesture_start(tp, time);
-		gesture_notify_swipe(&tp->device->base, time,
+		if (
+			tp->gesture.finger_count == 3 &&
+			libinput_device_config_get_three_finger_drag_enabled(&tp->device->base)
+		) {
+			tp_gesture_post_pointer_motion(tp, time);
+		} else {
+			gesture_notify_swipe(&tp->device->base, time,
 				     LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE,
 				     tp->gesture.finger_count,
 				     &delta, &unaccel);
+		}
 	}
 
 	return GESTURE_STATE_SWIPE;
@@ -791,10 +810,22 @@ tp_gesture_end(struct tp_dispatch *tp, uint64_t time, bool cancelled)
 					 cancelled);
 		break;
 	case GESTURE_STATE_SWIPE:
-		gesture_notify_swipe_end(&tp->device->base,
+		if (
+			tp->gesture.finger_count == 3 &&
+			libinput_device_config_get_three_finger_drag_enabled(&tp->device->base)
+		) {
+			pointer_notify_button(
+				&tp->device->base,
+				time,
+				BTN_LEFT,
+				LIBINPUT_BUTTON_STATE_RELEASED
+			);
+		} else {
+			gesture_notify_swipe_end(&tp->device->base,
 					 time,
 					 tp->gesture.finger_count,
 					 cancelled);
+		}
 		break;
 	}
 

@@ -885,6 +885,50 @@ evdev_init_natural_scroll(struct evdev_device *device)
 	device->base.config.natural_scroll = &device->scroll.config_natural;
 }
 
+static int
+evdev_three_finger_drag_has(struct libinput_device *device)
+{
+	return 1;
+}
+
+static enum libinput_config_status
+evdev_three_finger_drag_set(struct libinput_device *device,
+				int enabled)
+{
+	struct evdev_device *dev = evdev_device(device);
+
+	dev->three_finger_drag.enabled = enabled ? true : false;
+
+	return LIBINPUT_CONFIG_STATUS_SUCCESS;
+}
+
+static int
+evdev_three_finger_drag_get(struct libinput_device *device)
+{
+	struct evdev_device *dev = evdev_device(device);
+
+	return dev->three_finger_drag.enabled ? 1 : 0;
+}
+
+static int
+evdev_three_finger_drag_get_default(struct libinput_device *device)
+{
+	/* could enable this on Apple touchpads. could do that, could
+	 * very well do that... */
+	return 0;
+}
+
+void
+evdev_init_three_finger_drag(struct evdev_device *device)
+{
+	device->three_finger_drag.config.has = evdev_three_finger_drag_has;
+	device->three_finger_drag.config.set_enabled = evdev_three_finger_drag_set;
+	device->three_finger_drag.config.get_enabled = evdev_three_finger_drag_get;
+	device->three_finger_drag.config.get_default_enabled = evdev_three_finger_drag_get_default;
+	device->three_finger_drag.enabled = evdev_three_finger_drag_get_default(&device->base);
+	device->base.config.three_finger_drag = &device->three_finger_drag.config;
+}
+
 int
 evdev_need_mtdev(struct evdev_device *device)
 {
