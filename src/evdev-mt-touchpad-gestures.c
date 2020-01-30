@@ -645,7 +645,7 @@ tp_gesture_handle_state_swipe(struct tp_dispatch *tp, uint64_t time)
 	struct normalized_coords delta, unaccel;
 
 	raw = tp_get_average_touches_delta(tp);
-	delta = tp_filter_motion(tp, &raw, time);
+	delta = tp_filter_motion_unaccelerated(tp, &raw, time);
 
 	if (!normalized_is_zero(delta) || !device_float_is_zero(raw)) {
 		unaccel = tp_normalize_delta(tp, raw);
