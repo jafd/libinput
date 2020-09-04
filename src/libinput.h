@@ -5234,9 +5234,9 @@ libinput_device_config_get_three_finger_drag_enabled(struct libinput_device *dev
  *
  * @return Zero if three-finger dragging is disabled by default, non-zero if enabled
  *
- * @see libinput_device_config_scroll_has_natural_scroll
- * @see libinput_device_config_scroll_set_natural_scroll_enabled
- * @see libinput_device_config_scroll_get_natural_scroll_enabled
+ * @see libinput_device_config_has_three_finger_drag
+ * @see libinput_device_config_set_three_finger_drag_enabled
+ * @see libinput_device_config_get_three_finger_drag_enabled
  */
 int
 libinput_device_config_get_default_three_finger_drag_enabled(struct libinput_device *device);
