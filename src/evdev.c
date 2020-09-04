@@ -915,7 +915,7 @@ evdev_three_finger_drag_get_default(struct libinput_device *device)
 {
 	/* could enable this on Apple touchpads. could do that, could
 	 * very well do that... */
-	return 0;
+	return 1;
 }
 
 void
